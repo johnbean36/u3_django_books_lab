@@ -1,0 +1,11 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+{% for store in stores %}
+<div class="btitle">
+    <div>Store name: {{ store.name }}</div>
+    <div>Store address: {{ store.address }}</div>
+    <div>Store Phone: {{ store.phone }}</div>
+</div>
+{% endfor %}
+{% endblock %}

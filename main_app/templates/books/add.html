@@ -1,0 +1,12 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+<div class="btitle">
+    <label>Add store where this book can be found</label>
+    <form method="POST">
+        {% csrf_token %}
+        {{ store_form.as_p }}
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endblock %}

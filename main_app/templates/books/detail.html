@@ -1,0 +1,70 @@
+{% extends 'books/base.html' %}
+
+{% block content %}
+<div class="title">
+        <div class="btitle">
+            <div>{{ book.title }}</div>
+            <div>Author: {{ book.author }}</div>
+            <div>ISBN: {{ book.isbn }}</div>
+            <div>Pub Date: {{ book.published }}</div>
+            <div class="links">
+                <div class="l"><a href="{% url 'update_book' book.id %}">Edit</a></div>
+                <div class="l"><a href="{% url 'delete_book' book.id %}">Delete</a></div>
+            </div>
+        </div>
+        <div>
+            Add a Review
+        </div>
+        <div>
+            <form action="{% url 'create_review' book.id %}" method="POST">
+                {% csrf_token %}
+                <label for="name">Name: </label>
+                <input type="text" id="name" name="name">
+                <label for="review">Review</label>
+                <textarea id="review" name="review"></textarea>
+                <label for="rating">Rating 0 - 5</label>
+                <input pattern="[0-5]" id="rating" name="rating">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div class="reviews">
+            {% if reviews %}
+            {% for review in reviews %}
+            <div class="btitle">
+                <div>Reviewer: {{ review.name }}</div>
+                <div>Review: {{ review.review }}</div>
+                <div>Rating #: {{ review.rating }}</div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div>No reviews yet</div>
+            {% endif %}
+        </div>
+    </div>
+    <div>
+        <div>List of Stores that can this book can be added to: </div>
+        {% for e in e_stores %}
+        <div class="btitle">
+            <div>Store Name: {{ e.name }}</div>
+            <div>Store Address: {{ e.address }}</div>
+            <div>Store Phone: {{ e.phone }}</div>
+            <div>
+                <form action="{% url 'assoc_store' e.id book.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Add">
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div>
+        <div>Stores that are selling this book:</div>
+        {% for store in stores %}
+        <div class="btitle">
+            <div>Store Name: {{ store.name }}</div>
+            <div>Store Address: {{  store.address }}</div>
+            <div>Store Phone: {{ store.phone }}</div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
